@@ -11,7 +11,7 @@
       font-weight: 100;
     }
     #message span {
-      color: red;
+      color: blue;
       font-weight: bold;
     }
     input {
@@ -21,15 +21,15 @@
   </style>
 </head>
 <body id='template'>
-
-<h1>My Messages</h1>
-<p id="message">Message: <span></span></p>
-<p>
-  <label for="msgInput">Enter Message: </label>
-  <input name='msgInput' type="text">
-  <button id='submitData'>Add data</button>
-</p>
-<script src="js/soma.js"></script>
-<script src="js/message.js"></script>
+  <h1>My Messages</h1>
+  <p id="message">Message: <span>{{message}}</span></p>
+  <p>
+    <label for="msgInput">Enter Message: </label>
+    <input name='msgInput' type="text">
+    <button id='submitData'>Add data</button>
+  </p>
+  <script src="js/soma.js"></script>
+  <script src="js/soma-template.js"></script>
+  <script src="js/message.js"></script>
 </body>
 </html>

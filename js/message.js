@@ -2,6 +2,26 @@
 
   'use strict';
 
+  ///////////////////
+  // Define Template:
+  ///////////////////
+  var Template = function( scope, template, model, dispatcher ) {
+    // If no localStorage, output default message:
+    //============================================
+    scope.message = "Default message here.";
+    template.render();
+    // Add eventListener for "show-message".
+    // This will retrieve the data from localStorage,
+    // and reload the template:
+    //===============================================
+    dispatcher.addEventListener('show-message', function(event) {
+      if (model.getData()) {
+        scope.message = model.getData();
+        template.render();
+      }
+    });
+  };
+
   ////////////////
   // Define model:
   ////////////////
@@ -23,17 +43,20 @@
     getData: function() {
       var data = localStorage.getItem(this.storageKey);
       if (data) {
+        // Parse the string data:
         return JSON.parse(data)[0].message
       } else {
         // If nothing, return this:
-        console.log(this.message);
         return this.message;
       }
     },
     // Set localStorage to input value:
     //=================================
     setData: function(value) {
+      // If no value, do nothing:
       if (!value) return;
+
+      // Otherwise set the data to localStorage:
       localStorage.setItem(this.storageKey, ('[{"message":"' + value + '"}]'));
     }
   };
@@ -53,9 +76,10 @@
 
       // Update element's text with data:
       //=================================
-      target.firstElementChild.innerHTML = model.getData();
+      model.message = model.getData();
+      // Just to show how to pass data as event params:
       if (event.params) {
-      	console.log('Data passed to the event: ' + event.params.message);
+        console.log('Data passed to the event: ' + event.params.message);
       }
       // If nothing, return:
       return;
@@ -79,11 +103,15 @@
       // If there's a message, put it in localStorage:
       //==============================================
       if (value) {
+        // Call model.setData to store
+        // data in localStorage:
         model.setData(value);
+        // Dispatch event "show-message" with data as param:
         dispatcher.dispatch('show-message', {"message": value});
+        // Set input value to empty:
         document.querySelector('input').value = '';
       }
-      // If nothing, return:
+      // If no
       return;
     });
   };
@@ -98,9 +126,19 @@
   	// Initialize the module:
   	//=======================
     init: function() {
-      this.injector.mapClass('model', LocalStorageModel, true);
+      // Inject the model:
+      this.injector.mapClass('model', LocalStorageModel, true );
+      // Create the mediator MessageMediator 
+      // for the message template:
+      //=====================================
       this.mediators.create(MessageMediator, document.getElementById('message'));
+      // Create the mediator LocalStorageMediator
+      // for the submit button:
+      //=========================================
       this.mediators.create(LocalStorageMediator, document.getElementById('submitData'));
+      // Create the message template:
+      //=============================
+      this.createTemplate(Template, document.getElementById('message'));
     },
 
   	//==========================
