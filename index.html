@@ -7,7 +7,7 @@
       padding: 20px;
       font: normal 14pt/1.33 HelveticaNeue-Light, Sans-serif;
     }
-    h1 {
+    h1, h2 {
       font-weight: 100;
     }
     #message span {
@@ -18,16 +18,24 @@
       padding: 6px 10px;
       margin: 0 20px 0 0;
     }
+    .data-cloak {
+      display: none;
+    }
   </style>
 </head>
 <body id='template'>
   <h1>My Messages</h1>
-  <p id="message">Message: <span>{{message}}</span></p>
+  <p id="message">Latest Message: <span>{{message}}</span></p>
   <p>
-    <label for="msgInput">Enter Message: </label>
+    <label for="msgInput">Enter New Message: </label>
     <input name='msgInput' type="text">
-    <button id='submitData'>Add data</button>
+    <button id='submitData'>Add</button>
   </p>
+
+  <h2>Past Messages:</h2>
+  <ol>
+    <li class='data-cloak' id='messages' data-repeat='obj in messages'>{{obj.message}}</li>
+  </ol>
   <script src="js/soma.js"></script>
   <script src="js/soma-template.js"></script>
   <script src="js/message.js"></script>
