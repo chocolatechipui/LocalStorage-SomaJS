@@ -60,12 +60,9 @@
     //============================
     getData: function() {
       var data = localStorage.getItem(this.storageKey);
-      if (data) {
+      if (data && data.length) {
         // Parse the string data:
         return JSON.parse(data);
-      } else {
-        // If nothing, return this:
-        return this.message;
       }
     },
     // Set localStorage to input value:
@@ -81,9 +78,6 @@
       } else {
         localStorage.setItem(this.storageKey, '[{"message": "' + value + '"}]');
       }
-      
-      // Otherwise set the data to localStorage:
-      
     }
   };
 
