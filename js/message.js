@@ -5,7 +5,7 @@
   ///////////////////
   // Define Template:
   ///////////////////
-  var Template = function( scope, template, model, dispatcher ) {
+  var PreviousMessages = function( scope, template, model, dispatcher ) {
     // If no localStorage, output default message:
     //============================================
     // Add eventListener for "show-message".
@@ -23,7 +23,7 @@
   ///////////////////////////////////
   // Define Current Message Template:
   ///////////////////////////////////
-  var Message = function(scope, template, model, dispatcher) {
+  var CurrentMessage = function(scope, template, model, dispatcher) {
     // Set default message:
     //=====================
     scope.message = "Default message here.";
@@ -32,7 +32,7 @@
     //====================
     dispatcher.addEventListener('show-message', function(event) {
       var data = model.getData();
-      if (data) {
+      if (data && data.length) {
         // If localStorage get most recent message:
         //=========================================
         scope.message = data[0].message;
@@ -105,7 +105,7 @@
       model.message = model.getData();
       // Just to show how to pass data as event params:
       if (event.params) {
-        //console.log('Data passed to the event: ' + event.params.message);
+        console.log('Data passed to the event: ' + event.params.message);
       }
       // If nothing, return:
       return;
@@ -164,8 +164,8 @@
       this.mediators.create(LocalStorageMediator, document.getElementById('submitData'));
       // Create the message template:
       //=============================
-      this.createTemplate(Template, document.getElementById('messages'));
-      this.createTemplate(Message, document.getElementById('message'));
+      this.createTemplate(PreviousMessages, document.getElementById('messages'));
+      this.createTemplate(CurrentMessage, document.getElementById('message'));
     },
 
   	//==========================
